@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "savepoint-api-dotnet", "savepoint-api-dotnet\savepoint-api-dotnet.csproj", "{2120CB64-41AE-4543-859D-CF7F269FA68D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2120CB64-41AE-4543-859D-CF7F269FA68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2120CB64-41AE-4543-859D-CF7F269FA68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2120CB64-41AE-4543-859D-CF7F269FA68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2120CB64-41AE-4543-859D-CF7F269FA68D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95E57CF2-0EE3-41BE-A899-E7F1FA18E30C}
+	EndGlobalSection
+EndGlobal
