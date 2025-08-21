@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Models;
 
 namespace savepoint_api_dotnet.Controllers
 {
@@ -6,10 +8,13 @@ namespace savepoint_api_dotnet.Controllers
     [Route("[controller]")]
     public class GamesController : ControllerBase
     {
+        // TODO: create a GameService.cs file, where all logic happens
+        private readonly ApplicationDbContext _context;
+
         // Dependency injection
-        public GamesController()
+        public GamesController(ApplicationDbContext context)
         {
-            // No dependencies yet
+            _context = context;
         }
 
         /// <summary>
@@ -17,9 +22,11 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("")]
-        public IActionResult CreateGame()
+        public IActionResult CreateGame([FromBody] Game game)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented);
+            _context.Games.Add(game);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
         }
 
         /// <summary>
@@ -29,7 +36,8 @@ namespace savepoint_api_dotnet.Controllers
         [HttpGet("")]
         public IActionResult GetGames()
         {
-            return StatusCode(StatusCodes.Status501NotImplemented);
+            var games = _context.Games.ToList();
+            return Ok(games);
         }
 
         /// <summary>
@@ -40,9 +48,14 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult GetGame(int id)
+        public IActionResult GetGame(Guid id)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented);
+            var game = _context.Games.Find(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+            return Ok(game);
         }
 
         /// <summary>
@@ -52,10 +65,12 @@ namespace savepoint_api_dotnet.Controllers
         /// Game's id
         /// </param>
         /// <returns></returns>
-        [HttpPut("{id}")]
-        public IActionResult UpdateGame(int id)
+        [HttpPut("")]
+        public IActionResult UpdateGame([FromBody] Game game)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented);
+            _context.Games.Update(game);
+            _context.SaveChanges();
+            return NoContent();
         }
 
         /// <summary>
@@ -66,9 +81,16 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public IActionResult DeleteGame(int id)
+        public IActionResult DeleteGame(Guid id)
         {
-            return StatusCode(StatusCodes.Status501NotImplemented);
+            var game = _context.Games.Find(id);
+            if (game == null)
+            {
+                return NotFound();
+            }
+            _context.Games.Remove(game);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
