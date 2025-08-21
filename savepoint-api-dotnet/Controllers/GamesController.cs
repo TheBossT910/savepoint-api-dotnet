@@ -9,10 +9,10 @@ namespace savepoint_api_dotnet.Controllers
     public class GamesController : ControllerBase
     {
         // TODO: create a GameService.cs file, where all logic happens
-        private readonly ApplicationDbContext _context;
+        private readonly SavePointDbContext _context;
 
         // Dependency injection
-        public GamesController(ApplicationDbContext context)
+        public GamesController(SavePointDbContext context)
         {
             _context = context;
         }

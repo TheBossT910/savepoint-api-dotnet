@@ -11,7 +11,7 @@ using savepoint_api_dotnet.Data;
 
 namespace savepoint_api_dotnet.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(SavePointDbContext))]
     [Migration("20250821201524_UpdateGameModel")]
     partial class UpdateGameModel
     {

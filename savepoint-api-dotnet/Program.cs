@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Add EF Core + PostgreSQL database
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 

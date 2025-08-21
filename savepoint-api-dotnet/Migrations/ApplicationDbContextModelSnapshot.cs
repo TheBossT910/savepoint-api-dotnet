@@ -10,7 +10,7 @@ using savepoint_api_dotnet.Data;
 
 namespace savepoint_api_dotnet.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(SavePointDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
