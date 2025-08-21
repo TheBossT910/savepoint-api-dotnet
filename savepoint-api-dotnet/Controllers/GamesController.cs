@@ -12,40 +12,59 @@ namespace savepoint_api_dotnet.Controllers
             // No dependencies yet
         }
 
-        // Create
+        /// <summary>
+        /// Creates a new game. Throws an error if the game already exists in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("")]
         public IActionResult CreateGame()
         {
             return StatusCode(StatusCodes.Status501NotImplemented);
         }
 
-        // Read
+        /// <summary>
+        /// Gets all games in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("")]
         public IActionResult GetGames()
         {
             return StatusCode(StatusCodes.Status501NotImplemented);
         }
 
+        /// <summary>
+        /// Gets a specific game
+        /// </summary>
+        /// <param name="id">
+        /// Game's id
+        /// </param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetGame(int id)
         {
             return StatusCode(StatusCodes.Status501NotImplemented);
         }
 
-        // Update
-
         /// <summary>
-        /// Logs in a user and returns a JWT token.
+        /// Updates a specific game
         /// </summary>
-        /// <param name="request">Login request with username and password</param>
-        /// <returns>JWT token if authentication is successful</returns>
+        /// <param name="id">
+        /// Game's id
+        /// </param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult UpdateGame(int id)
         {
             return StatusCode(StatusCodes.Status501NotImplemented);
         }
 
-        // Delete
+        /// <summary>
+        /// Deletes a specific game
+        /// </summary>
+        /// <param name="id">
+        /// Game's id
+        /// </param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult DeleteGame(int id)
         {
