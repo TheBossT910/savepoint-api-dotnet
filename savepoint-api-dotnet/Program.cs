@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Mapping;
 using savepoint_api_dotnet.Services;
 using System;
 using System.Reflection;
@@ -38,6 +40,9 @@ builder.Services.AddSwaggerGen(options =>
 // Add EF Core + PostgreSQL database
 builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Adding mappers
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 // Adding services
 builder.Services.AddScoped<GameService>();
