@@ -7,6 +7,14 @@ namespace savepoint_api_dotnet.Data
     {
         public SavePointDbContext(DbContextOptions<SavePointDbContext> options) : base(options) { }
 
-        public DbSet<Game> Games { get; set; }  // The games table in Supabase
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Create a new id when given a blank GUID
+            modelBuilder.Entity<Game>()
+                .Property(g => g.Id)
+                .HasDefaultValueSql("NEWSEQUENTIALID()");
+        }
+
+        public DbSet<Game> Games { get; set; }  // The games table in SQL
     }
 }
