@@ -16,14 +16,6 @@ namespace savepoint_api_dotnet.Models
         public List<Genre> Genres { get; set; }
         public List<Image> Images { get; set; }
         public List<Video> Videos { get; set; }
-
-        //public string Slug { get; set; }
-        //public DateTime ReleaseDate { get; set; }
-        //public string Upc { get; set; }
-        //public float PriceNew { get; set; }
-        //public float PriceComplete { get; set; }
-        //public float PriceLoose { get; set; }
-        //public int PriceLastUpdated { get; set; }
     }
 }
 
