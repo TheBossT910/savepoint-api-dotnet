@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Services;
 using System;
 using System.Reflection;
 
@@ -38,6 +39,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Adding services
+builder.Services.AddScoped<GameService>();
 
 var app = builder.Build();
 
