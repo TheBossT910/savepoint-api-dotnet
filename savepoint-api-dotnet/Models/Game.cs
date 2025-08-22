@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace savepoint_api_dotnet.Models
 {
     [Table("games")]
     public class Game
     {
+        [Key]
         public Guid Id { get; set; }
         public DateTime Dtc { get; set; }
         public string Name { get; set; }
