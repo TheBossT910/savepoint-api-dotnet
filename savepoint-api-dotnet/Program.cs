@@ -44,7 +44,13 @@ builder.Services.AddDbContext<SavePointDbContext>(options =>
 // Adding mappers
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
-// Adding services
+// Adding resolvers
+builder.Services.AddScoped<DeveloperCreateResolver>();
+builder.Services.AddScoped<DeveloperUpdateResolver>();
+builder.Services.AddScoped<GenreCreateResolver>();
+builder.Services.AddScoped<GenreUpdateResolver>();
+
+// Adding other services
 builder.Services.AddScoped<GameService>();
 
 var app = builder.Build();

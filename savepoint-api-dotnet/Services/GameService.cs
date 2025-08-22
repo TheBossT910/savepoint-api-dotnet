@@ -21,39 +21,6 @@ namespace savepoint_api_dotnet.Services
 		public GameDto AddGame(GameCreateDto gameCreateDto)
 		{
             var game = _mapper.Map<Game>(gameCreateDto);
-
-            // Many-to-many: Developers
-            if (gameCreateDto.DeveloperIds != null && gameCreateDto.DeveloperIds.Any())
-            {
-                game.Developers = _context.Developers
-                    .Where(d => gameCreateDto.DeveloperIds.Contains(d.Id))
-                    .ToList();
-            }
-
-            // Many-to-many: Genres
-            if (gameCreateDto.GenreIds != null && gameCreateDto.GenreIds.Any())
-            {
-                game.Genres = _context.Genres
-                    .Where(g => gameCreateDto.GenreIds.Contains(g.Id))
-                    .ToList();
-            }
-
-            // One-to-many: Images
-            if (gameCreateDto.Images != null && gameCreateDto.Images.Any())
-            {
-                game.Images = gameCreateDto.Images
-                    .Select(i => _mapper.Map<Image>(i))
-                    .ToList();
-            }
-
-            // One-to-many: Videos
-            if (gameCreateDto.Videos != null && gameCreateDto.Videos.Any())
-            {
-                game.Videos = gameCreateDto.Videos
-                    .Select(v => _mapper.Map<Video>(v))
-                    .ToList();
-            }
-
             _context.Games.Add(game);
 			_context.SaveChanges();
             return _mapper.Map<GameDto>(game);
@@ -88,40 +55,14 @@ namespace savepoint_api_dotnet.Services
         // Update game
         public void UpdateGame(GameUpdateDto gameUpdateDto)
 		{
-            var game = _mapper.Map<Game>(gameUpdateDto);
-
-            // Many-to-many: Developers
-            if (gameUpdateDto.DeveloperIds != null && gameUpdateDto.DeveloperIds.Any())
-            {
-                game.Developers = _context.Developers
-                    .Where(d => gameUpdateDto.DeveloperIds.Contains(d.Id))
-                    .ToList();
-            }
-
-            // Many-to-many: Genres
-            if (gameUpdateDto.GenreIds != null && gameUpdateDto.GenreIds.Any())
-            {
-                game.Genres = _context.Genres
-                    .Where(g => gameUpdateDto.GenreIds.Contains(g.Id))
-                    .ToList();
-            }
-
-            // One-to-many: Images
-            if (gameUpdateDto.Images != null && gameUpdateDto.Images.Any())
-            {
-                game.Images = gameUpdateDto.Images
-                    .Select(i => _mapper.Map<Image>(i))
-                    .ToList();
-            }
-
-            // One-to-many: Videos
-            if (gameUpdateDto.Videos != null && gameUpdateDto.Videos.Any())
-            {
-                game.Videos = gameUpdateDto.Videos
-                    .Select(v => _mapper.Map<Video>(v))
-                    .ToList();
-            }
-
+            // We need to include Developers and Genres for the resolver to properly map
+            var game = _context.Games
+                .Include(g => g.Developers)
+                .Include(g => g.Genres)
+                .FirstOrDefault(g => g.Id == gameUpdateDto.Id);
+            if (game == null)
+                throw new Exception($"Update failed. Game with id {gameUpdateDto.Id} not found");
+            _mapper.Map(gameUpdateDto, game);
             _context.Games.Update(game);
 			_context.SaveChanges();
 		}

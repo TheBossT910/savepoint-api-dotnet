@@ -10,21 +10,28 @@ namespace savepoint_api_dotnet.Mapping
 		public MappingProfile()
 		{
 			CreateMap<Game, GameDto>();
-			CreateMap<GameUpdateDto, Game>()
-                .ForMember(dest => dest.Images, opt => opt.Ignore())
-                .ForMember(dest => dest.Videos, opt => opt.Ignore())
-                .ForMember(dest => dest.Genres, opt => opt.Ignore())
-                .ForMember(dest => dest.Developers, opt => opt.Ignore());
-            CreateMap<GameCreateDto, Game>()
-				.ForMember(dest => dest.Images, opt => opt.Ignore())
-                .ForMember(dest => dest.Videos, opt => opt.Ignore())
-                .ForMember(dest => dest.Genres, opt => opt.Ignore())
-                .ForMember(dest => dest.Developers, opt => opt.Ignore());
 
-            CreateMap<Developer, DeveloperDto>();
+			CreateMap<GameUpdateDto, Game>()
+				.ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
+                .ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperUpdateResolver>())
+				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreUpdateResolver>());
+
+			CreateMap<GameCreateDto, Game>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
+				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
+				.ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperCreateResolver>())
+				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreCreateResolver>());
+
+			CreateMap<Developer, DeveloperDto>();
+
 			CreateMap<Genre, GenreDto>();
-			CreateMap<Image, ImageDto>();
-			CreateMap<Video, VideoDto>();
+
+			CreateMap<Image, ImageDto>()
+				.ReverseMap();
+
+			CreateMap<Video, VideoDto>()
+				.ReverseMap();
 		}
 	}
 }
