@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using savepoint_api_dotnet.Data;
 using savepoint_api_dotnet.Models;
+using savepoint_api_dotnet.Services;
 
 namespace savepoint_api_dotnet.Controllers
 {
@@ -9,12 +10,12 @@ namespace savepoint_api_dotnet.Controllers
     public class GamesController : ControllerBase
     {
         // TODO: create a GameService.cs file, where all logic happens
-        private readonly SavePointDbContext _context;
+        private readonly GameService _gameService;
 
         // Dependency injection
-        public GamesController(SavePointDbContext context)
+        public GamesController(GameService gameService)
         {
-            _context = context;
+            _gameService = gameService;
         }
 
         /// <summary>
@@ -24,8 +25,7 @@ namespace savepoint_api_dotnet.Controllers
         [HttpPost("")]
         public IActionResult CreateGame([FromBody] Game game)
         {
-            _context.Games.Add(game);
-            _context.SaveChanges();
+            _gameService.AddGame(game);
             return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
         }
 
@@ -36,7 +36,7 @@ namespace savepoint_api_dotnet.Controllers
         [HttpGet("")]
         public IActionResult GetGames()
         {
-            var games = _context.Games.ToList();
+            var games = _gameService.GetGames();
             return Ok(games);
         }
 
@@ -50,11 +50,7 @@ namespace savepoint_api_dotnet.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGame(Guid id)
         {
-            var game = _context.Games.Find(id);
-            if (game == null)
-            {
-                return NotFound();
-            }
+            var game = _gameService.GetGameById(id);
             return Ok(game);
         }
 
@@ -68,8 +64,7 @@ namespace savepoint_api_dotnet.Controllers
         [HttpPut("")]
         public IActionResult UpdateGame([FromBody] Game game)
         {
-            _context.Games.Update(game);
-            _context.SaveChanges();
+            _gameService.UpdateGame(game);
             return NoContent();
         }
 
@@ -83,13 +78,7 @@ namespace savepoint_api_dotnet.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteGame(Guid id)
         {
-            var game = _context.Games.Find(id);
-            if (game == null)
-            {
-                return NotFound();
-            }
-            _context.Games.Remove(game);
-            _context.SaveChanges();
+            _gameService.DeleteGame(id);
             return NoContent();
         }
     }
