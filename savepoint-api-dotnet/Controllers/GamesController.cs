@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using savepoint_api_dotnet.Data;
 using savepoint_api_dotnet.Models;
 using savepoint_api_dotnet.Services;
+using savepoint_api_dotnet.Dtos.Games;
 
 namespace savepoint_api_dotnet.Controllers
 {
@@ -23,10 +23,10 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("")]
-        public IActionResult CreateGame([FromBody] Game game)
+        public IActionResult CreateGame([FromBody] GameCreateDto gameCreateDto)
         {
-            _gameService.AddGame(game);
-            return CreatedAtAction(nameof(GetGame), new { id = game.Id }, game);
+            var createdGameDto = _gameService.AddGame(gameCreateDto);
+            return CreatedAtAction(nameof(GetGame), new { id = createdGameDto.Id }, createdGameDto);
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace savepoint_api_dotnet.Controllers
         [HttpGet("")]
         public IActionResult GetGames()
         {
-            var games = _gameService.GetGames();
-            return Ok(games);
+            var gameDtos = _gameService.GetGames();
+            return Ok(gameDtos);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace savepoint_api_dotnet.Controllers
         [HttpGet("{id}")]
         public IActionResult GetGame(Guid id)
         {
-            var game = _gameService.GetGameById(id);
-            return Ok(game);
+            var gameDto = _gameService.GetGameById(id);
+            return Ok(gameDto);
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("")]
-        public IActionResult UpdateGame([FromBody] Game game)
+        public IActionResult UpdateGame([FromBody] GameUpdateDto gameUpdateDto)
         {
-            _gameService.UpdateGame(game);
+            _gameService.UpdateGame(gameUpdateDto);
             return NoContent();
         }
 
