@@ -9,13 +9,7 @@ namespace savepoint_api_dotnet.Mapping
 	{
 		public MappingProfile()
 		{
-			CreateMap<Game, GameDto>()
-				.ReverseMap()
-				// Handle mapping in service
-				.ForMember(dest => dest.Images, opt => opt.Ignore())
-				.ForMember(dest => dest.Videos, opt => opt.Ignore())
-				.ForMember(dest => dest.Genres, opt => opt.Ignore())
-				.ForMember(dest => dest.Developers, opt => opt.Ignore());
+			CreateMap<Game, GameDto>();
 			CreateMap<GameUpdateDto, Game>()
                 .ForMember(dest => dest.Images, opt => opt.Ignore())
                 .ForMember(dest => dest.Videos, opt => opt.Ignore())
