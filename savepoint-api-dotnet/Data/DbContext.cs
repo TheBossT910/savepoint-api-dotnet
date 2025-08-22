@@ -15,6 +15,11 @@ namespace savepoint_api_dotnet.Data
                 .HasDefaultValueSql("NEWSEQUENTIALID()");
         }
 
-        public DbSet<Game> Games { get; set; }  // The games table in SQL
+        // Tables in SQL
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Developer> Developers { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Video> Videos { get; set; }
     }
 }

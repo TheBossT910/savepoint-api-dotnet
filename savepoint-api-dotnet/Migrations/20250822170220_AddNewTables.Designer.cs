@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using savepoint_api_dotnet.Data;
 
@@ -11,9 +12,11 @@ using savepoint_api_dotnet.Data;
 namespace savepoint_api_dotnet.Migrations
 {
     [DbContext(typeof(SavePointDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250822170220_AddNewTables")]
+    partial class AddNewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +53,36 @@ namespace savepoint_api_dotnet.Migrations
                     b.HasIndex("GenresId");
 
                     b.ToTable("GameGenre");
+                });
+
+            modelBuilder.Entity("GameImage", b =>
+                {
+                    b.Property<Guid>("GamesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ImagesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GamesId", "ImagesId");
+
+                    b.HasIndex("ImagesId");
+
+                    b.ToTable("GameImage");
+                });
+
+            modelBuilder.Entity("GameVideo", b =>
+                {
+                    b.Property<Guid>("GamesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("VideosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GamesId", "VideosId");
+
+                    b.HasIndex("VideosId");
+
+                    b.ToTable("GameVideo");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Developer", b =>
@@ -125,9 +158,6 @@ namespace savepoint_api_dotnet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Source")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -137,8 +167,6 @@ namespace savepoint_api_dotnet.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.ToTable("images");
                 });
@@ -151,9 +179,6 @@ namespace savepoint_api_dotnet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Source")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -163,8 +188,6 @@ namespace savepoint_api_dotnet.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameId");
 
                     b.ToTable("videos");
                 });
@@ -199,33 +222,34 @@ namespace savepoint_api_dotnet.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("savepoint_api_dotnet.Models.Image", b =>
+            modelBuilder.Entity("GameImage", b =>
                 {
-                    b.HasOne("savepoint_api_dotnet.Models.Game", "Game")
-                        .WithMany("Images")
-                        .HasForeignKey("GameId")
+                    b.HasOne("savepoint_api_dotnet.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
+                    b.HasOne("savepoint_api_dotnet.Models.Image", null)
+                        .WithMany()
+                        .HasForeignKey("ImagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("savepoint_api_dotnet.Models.Video", b =>
+            modelBuilder.Entity("GameVideo", b =>
                 {
-                    b.HasOne("savepoint_api_dotnet.Models.Game", "Game")
-                        .WithMany("Videos")
-                        .HasForeignKey("GameId")
+                    b.HasOne("savepoint_api_dotnet.Models.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("savepoint_api_dotnet.Models.Game", b =>
-                {
-                    b.Navigation("Images");
-
-                    b.Navigation("Videos");
+                    b.HasOne("savepoint_api_dotnet.Models.Video", null)
+                        .WithMany()
+                        .HasForeignKey("VideosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

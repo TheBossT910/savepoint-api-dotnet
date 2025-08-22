@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using savepoint_api_dotnet.Data;
 
@@ -11,9 +12,11 @@ using savepoint_api_dotnet.Data;
 namespace savepoint_api_dotnet.Migrations
 {
     [DbContext(typeof(SavePointDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250822165240_AddDeveloperGenreImageVideoTablesInDb")]
+    partial class AddDeveloperGenreImageVideoTablesInDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace savepoint_api_dotnet.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DeveloperGame", b =>
-                {
-                    b.Property<int>("DevelopersId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("GamesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DevelopersId", "GamesId");
-
-                    b.HasIndex("GamesId");
-
-                    b.ToTable("DeveloperGame");
-                });
-
-            modelBuilder.Entity("GameGenre", b =>
-                {
-                    b.Property<Guid>("GamesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GamesId", "GenresId");
-
-                    b.HasIndex("GenresId");
-
-                    b.ToTable("GameGenre");
-                });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Developer", b =>
                 {
@@ -64,13 +37,18 @@ namespace savepoint_api_dotnet.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("developers");
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Developers");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Game", b =>
@@ -108,13 +86,18 @@ namespace savepoint_api_dotnet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<Guid?>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("genres");
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Image", b =>
@@ -125,7 +108,7 @@ namespace savepoint_api_dotnet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("GameId")
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Source")
@@ -140,7 +123,7 @@ namespace savepoint_api_dotnet.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("images");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Video", b =>
@@ -151,7 +134,7 @@ namespace savepoint_api_dotnet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("GameId")
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Source")
@@ -166,63 +149,43 @@ namespace savepoint_api_dotnet.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("videos");
+                    b.ToTable("Videos");
                 });
 
-            modelBuilder.Entity("DeveloperGame", b =>
+            modelBuilder.Entity("savepoint_api_dotnet.Models.Developer", b =>
                 {
-                    b.HasOne("savepoint_api_dotnet.Models.Developer", null)
-                        .WithMany()
-                        .HasForeignKey("DevelopersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("savepoint_api_dotnet.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Developers")
+                        .HasForeignKey("GameId");
                 });
 
-            modelBuilder.Entity("GameGenre", b =>
+            modelBuilder.Entity("savepoint_api_dotnet.Models.Genre", b =>
                 {
                     b.HasOne("savepoint_api_dotnet.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("savepoint_api_dotnet.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Genres")
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Image", b =>
                 {
-                    b.HasOne("savepoint_api_dotnet.Models.Game", "Game")
+                    b.HasOne("savepoint_api_dotnet.Models.Game", null)
                         .WithMany("Images")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Video", b =>
                 {
-                    b.HasOne("savepoint_api_dotnet.Models.Game", "Game")
+                    b.HasOne("savepoint_api_dotnet.Models.Game", null)
                         .WithMany("Videos")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("savepoint_api_dotnet.Models.Game", b =>
                 {
+                    b.Navigation("Developers");
+
+                    b.Navigation("Genres");
+
                     b.Navigation("Images");
 
                     b.Navigation("Videos");

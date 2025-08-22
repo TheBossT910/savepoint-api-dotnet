@@ -1,6 +1,7 @@
 ﻿using savepoint_api_dotnet.Data;
 using System;
 using savepoint_api_dotnet.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace savepoint_api_dotnet.Services
 {
