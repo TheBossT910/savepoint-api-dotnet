@@ -32,6 +32,13 @@ namespace savepoint_api_dotnet.Mapping
 
 			CreateMap<Video, VideoDto>()
 				.ReverseMap();
-		}
+
+            // TODO: Create 'Create' and 'Update' DTOs for Stack and List if needed
+            CreateMap<Stack, StackDto>()
+				.ReverseMap();
+
+			CreateMap<List, ListDto>()
+				.ReverseMap();
+        }
 	}
 }

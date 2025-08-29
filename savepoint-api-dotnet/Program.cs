@@ -52,6 +52,7 @@ builder.Services.AddScoped<GenreUpdateResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();
+builder.Services.AddScoped<StackService>();
 
 var app = builder.Build();
 

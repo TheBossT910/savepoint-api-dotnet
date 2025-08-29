@@ -16,6 +16,8 @@ namespace savepoint_api_dotnet.Models
         public List<Genre> Genres { get; set; }
         public List<Image> Images { get; set; }
         public List<Video> Videos { get; set; }
+        public List<Stack> Stacks { get; set; }
+        public List<List> Lists { get; set; }
     }
 }
 
