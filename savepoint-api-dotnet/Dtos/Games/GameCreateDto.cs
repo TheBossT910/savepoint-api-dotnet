@@ -14,5 +14,7 @@ namespace savepoint_api_dotnet.Dtos.Games
         public List<int> GenreIds { get; set; }
         public List<ImageDto> Images { get; set; }
         public List<VideoDto> Videos { get; set; }
+        public List<int> GameVariationIds { get; set; }
+        // Ignore Stacks and Lists
     }
 }

@@ -18,17 +18,24 @@ namespace savepoint_api_dotnet.Mapping
 				.ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
 				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
                 .ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperUpdateResolver>())
-				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreUpdateResolver>());
+				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreUpdateResolver>())
+				.ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationUpdateResolver>());
 
-			CreateMap<GameCreateDto, Game>()
+            CreateMap<GameCreateDto, Game>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
 				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
 				.ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperCreateResolver>())
-				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreCreateResolver>());
+				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreCreateResolver>())
+                .ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationCreateResolver>());
 
-			CreateMap<Developer, DeveloperDto>();
+            CreateMap<Developer, DeveloperDto>();
 
-			CreateMap<Genre, GenreDto>();
+            CreateMap<GameVariation, GameVariationDto>()
+				.ForMember(dest => dest.GameIds, opt => opt.MapFrom(src => src.Games != null ? src.Games.ConvertAll(g => g.Id) : new List<Guid>()))
+				.ReverseMap()
+                .ForMember(dest => dest.Games, opt => opt.MapFrom<GameVariationAddGameResolver>());
+
+            CreateMap<Genre, GenreDto>();
 
 			CreateMap<Image, ImageDto>()
 				.ReverseMap();

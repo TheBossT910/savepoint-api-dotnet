@@ -45,11 +45,15 @@ builder.Services.AddDbContext<SavePointDbContext>(options =>
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 // Adding resolvers
-// TODO: rename resolvers to be more specific
+// TODO: rename resolvers with prefix 'Game' to be more specific
 builder.Services.AddScoped<DeveloperCreateResolver>();
 builder.Services.AddScoped<DeveloperUpdateResolver>();
 builder.Services.AddScoped<GenreCreateResolver>();
 builder.Services.AddScoped<GenreUpdateResolver>();
+builder.Services.AddScoped<GameVariationCreateResolver>();
+builder.Services.AddScoped<GameVariationUpdateResolver>();
+// Game variation to add games
+builder.Services.AddScoped<GameVariationAddGameResolver>();
 // Stack resolvers
 builder.Services.AddScoped<StackGameCreateResolver>();
 builder.Services.AddScoped<StackGameUpdateResolver>();

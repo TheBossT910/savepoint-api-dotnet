@@ -34,6 +34,8 @@ namespace savepoint_api_dotnet.Services
                 .Include(g => g.Genres)
                 .Include(g => g.Images)
                 .Include(g => g.Videos)
+                .Include(g => g.GameVariations)
+                    .ThenInclude(gv => gv.Games)
                 .ToList();
             return _mapper.Map<List<GameDto>>(games);
         }
@@ -46,6 +48,8 @@ namespace savepoint_api_dotnet.Services
                 .Include(g => g.Genres)
                 .Include(g => g.Images)
                 .Include(g => g.Videos)
+                .Include(g => g.GameVariations)
+                    .ThenInclude(gv => gv.Games)
                 .FirstOrDefault(g => g.Id == id);
             if (game == null)
                 throw new Exception($"Game with id {id} not found");
@@ -55,10 +59,11 @@ namespace savepoint_api_dotnet.Services
         // Update game
         public void UpdateGame(GameUpdateDto gameUpdateDto)
 		{
-            // We need to include Developers and Genres for the resolver to properly map
+            // We need to include Developers, Genres, and GameVariations for the resolver to properly map
             var game = _context.Games
                 .Include(g => g.Developers)
                 .Include(g => g.Genres)
+                .Include(g => g.GameVariations)
                 .FirstOrDefault(g => g.Id == gameUpdateDto.Id);
             if (game == null)
                 throw new Exception($"Update failed. Game with id {gameUpdateDto.Id} not found");
