@@ -30,10 +30,8 @@ namespace savepoint_api_dotnet.Mapping
 
             CreateMap<Developer, DeveloperDto>();
 
-            CreateMap<GameVariation, GameVariationDto>()
-				.ForMember(dest => dest.GameIds, opt => opt.MapFrom(src => src.Games != null ? src.Games.ConvertAll(g => g.Id) : new List<Guid>()))
-				.ReverseMap()
-                .ForMember(dest => dest.Games, opt => opt.MapFrom<GameVariationAddGameResolver>());
+			CreateMap<GameVariation, GameVariationDto>()
+				.ForMember(dest => dest.GameIds, opt => opt.MapFrom(src => src.Games != null ? src.Games.ConvertAll(g => g.Id) : new List<Guid>()));
 
             CreateMap<Genre, GenreDto>();
 

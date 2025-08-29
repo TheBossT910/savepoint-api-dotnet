@@ -47,24 +47,4 @@ namespace savepoint_api_dotnet.Mapping
                 .ToList();
         }
     }
-
-    // For GameVariationDto
-    public class GameVariationAddGameResolver : IValueResolver<GameVariationDto, GameVariation, List<Game>>
-    {
-        private readonly SavePointDbContext _context;
-
-        public GameVariationAddGameResolver(SavePointDbContext context)
-        {
-            _context = context;
-        }
-        public List<Game> Resolve(GameVariationDto source, GameVariation destination, List<Game> destMember, ResolutionContext context)
-        {
-            if (source.GameIds == null || !source.GameIds.Any())
-                return new List<Game>();
-
-            return _context.Games
-                .Where(d => source.GameIds.Contains(d.Id))
-                .ToList();
-        }
-    }
 }

@@ -52,8 +52,6 @@ builder.Services.AddScoped<GenreCreateResolver>();
 builder.Services.AddScoped<GenreUpdateResolver>();
 builder.Services.AddScoped<GameVariationCreateResolver>();
 builder.Services.AddScoped<GameVariationUpdateResolver>();
-// Game variation to add games
-builder.Services.AddScoped<GameVariationAddGameResolver>();
 // Stack resolvers
 builder.Services.AddScoped<StackGameCreateResolver>();
 builder.Services.AddScoped<StackGameUpdateResolver>();
