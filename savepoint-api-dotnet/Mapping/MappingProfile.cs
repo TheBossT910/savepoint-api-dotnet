@@ -3,6 +3,7 @@ using AutoMapper;
 using savepoint_api_dotnet.Models;
 using savepoint_api_dotnet.Dtos;
 using savepoint_api_dotnet.Dtos.Games;
+using savepoint_api_dotnet.Dtos.Stacks;
 namespace savepoint_api_dotnet.Mapping
 {
 	public class MappingProfile : Profile
@@ -33,11 +34,16 @@ namespace savepoint_api_dotnet.Mapping
 			CreateMap<Video, VideoDto>()
 				.ReverseMap();
 
-            // TODO: Create 'Create' and 'Update' DTOs for Stack and List if needed
-            CreateMap<Stack, StackDto>()
-				.ReverseMap();
+			CreateMap<Stack, StackDto>();
 
-			CreateMap<List, ListDto>()
+			CreateMap<StackUpdateDto, Stack>()
+				.ForMember(dest => dest.Games, opt => opt.MapFrom<GameUpdateResolver>());
+
+            CreateMap<StackCreateDto, Stack>()
+                .ForMember(dest => dest.Games, opt => opt.MapFrom<GameCreateResolver>());
+
+            // TODO: Create 'Create' and 'Update' DTOs for List
+            CreateMap<List, ListDto>()
 				.ReverseMap();
         }
 	}

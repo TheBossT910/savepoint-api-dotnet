@@ -49,6 +49,8 @@ builder.Services.AddScoped<DeveloperCreateResolver>();
 builder.Services.AddScoped<DeveloperUpdateResolver>();
 builder.Services.AddScoped<GenreCreateResolver>();
 builder.Services.AddScoped<GenreUpdateResolver>();
+builder.Services.AddScoped<GameCreateResolver>();
+builder.Services.AddScoped<GameUpdateResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();

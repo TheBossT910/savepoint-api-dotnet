@@ -13,6 +13,9 @@ namespace savepoint_api_dotnet.Data
             modelBuilder.Entity<Game>()
                 .Property(g => g.Id)
                 .HasDefaultValueSql("NEWSEQUENTIALID()");
+            modelBuilder.Entity<Stack>()
+                .Property(s => s.Id)
+                .HasDefaultValueSql("NEWSEQUENTIALID()");
         }
 
         // Tables in SQL

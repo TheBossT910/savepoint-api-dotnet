@@ -1,7 +1,9 @@
-﻿using savepoint_api_dotnet.Data;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using savepoint_api_dotnet.Dtos;
+using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Dtos.Games;
+using savepoint_api_dotnet.Dtos.Stacks;
+using savepoint_api_dotnet.Models;
 
 namespace savepoint_api_dotnet.Services
 {
@@ -13,6 +15,15 @@ namespace savepoint_api_dotnet.Services
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        // Add stack
+        public StackDto AddStack(StackCreateDto stackCreateDto)
+        {
+            var stack = _mapper.Map<Stack>(stackCreateDto);
+            _context.Stacks.Add(stack);
+            _context.SaveChanges();
+            return _mapper.Map<StackDto>(stack);
         }
 
         // Get all stacks
@@ -33,6 +44,30 @@ namespace savepoint_api_dotnet.Services
             if (stack == null)
                 throw new Exception($"Stack with id {id} not found");
             return _mapper.Map<StackDto>(stack);
+        }
+
+        // Update stack
+        public void UpdateStack(StackUpdateDto stackUpdateDto)
+        {
+            // We need to include Games for the resolver to properly map
+            var stack = _context.Stacks
+                .Include(g => g.Games)
+                .FirstOrDefault(g => g.Id == stackUpdateDto.Id);
+            if (stack == null)
+                throw new Exception($"Update failed. Stack with id {stackUpdateDto.Id} not found");
+            _mapper.Map(stackUpdateDto, stack);
+            _context.Stacks.Update(stack);
+            _context.SaveChanges();
+        }
+
+        // Delete stack
+        public void DeleteStack(Guid id)
+        {
+            var stack = _context.Stacks.Find(id);
+            if (stack == null)
+                return;
+            _context.Stacks.Remove(stack);
+            _context.SaveChanges();
         }
     }
 }
