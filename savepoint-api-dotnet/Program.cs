@@ -45,16 +45,22 @@ builder.Services.AddDbContext<SavePointDbContext>(options =>
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 // Adding resolvers
+// TODO: rename resolvers to be more specific
 builder.Services.AddScoped<DeveloperCreateResolver>();
 builder.Services.AddScoped<DeveloperUpdateResolver>();
 builder.Services.AddScoped<GenreCreateResolver>();
 builder.Services.AddScoped<GenreUpdateResolver>();
-builder.Services.AddScoped<GameCreateResolver>();
-builder.Services.AddScoped<GameUpdateResolver>();
+// Stack resolvers
+builder.Services.AddScoped<StackGameCreateResolver>();
+builder.Services.AddScoped<StackGameUpdateResolver>();
+// List resolvers
+builder.Services.AddScoped<ListGameCreateResolver>();
+builder.Services.AddScoped<ListGameUpdateResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<StackService>();
+builder.Services.AddScoped<ListService>();
 
 var app = builder.Build();
 

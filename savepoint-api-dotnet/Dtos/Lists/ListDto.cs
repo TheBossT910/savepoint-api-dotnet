@@ -1,5 +1,5 @@
 ﻿using savepoint_api_dotnet.Dtos.Games;
-namespace savepoint_api_dotnet.Dtos
+namespace savepoint_api_dotnet.Dtos.Lists
 {
     public class ListDto
     {

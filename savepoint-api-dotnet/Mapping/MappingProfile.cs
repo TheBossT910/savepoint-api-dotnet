@@ -4,12 +4,14 @@ using savepoint_api_dotnet.Models;
 using savepoint_api_dotnet.Dtos;
 using savepoint_api_dotnet.Dtos.Games;
 using savepoint_api_dotnet.Dtos.Stacks;
+using savepoint_api_dotnet.Dtos.Lists;
 namespace savepoint_api_dotnet.Mapping
 {
 	public class MappingProfile : Profile
 	{
 		public MappingProfile()
 		{
+			// Game
 			CreateMap<Game, GameDto>();
 
 			CreateMap<GameUpdateDto, Game>()
@@ -34,17 +36,23 @@ namespace savepoint_api_dotnet.Mapping
 			CreateMap<Video, VideoDto>()
 				.ReverseMap();
 
+			// Stack
 			CreateMap<Stack, StackDto>();
 
 			CreateMap<StackUpdateDto, Stack>()
-				.ForMember(dest => dest.Games, opt => opt.MapFrom<GameUpdateResolver>());
+				.ForMember(dest => dest.Games, opt => opt.MapFrom<StackGameUpdateResolver>());
 
             CreateMap<StackCreateDto, Stack>()
-                .ForMember(dest => dest.Games, opt => opt.MapFrom<GameCreateResolver>());
+                .ForMember(dest => dest.Games, opt => opt.MapFrom<StackGameCreateResolver>());
 
-            // TODO: Create 'Create' and 'Update' DTOs for List
-            CreateMap<List, ListDto>()
-				.ReverseMap();
+			// List
+            CreateMap<List, ListDto>();
+
+            CreateMap<ListUpdateDto, List>()
+                .ForMember(dest => dest.Games, opt => opt.MapFrom<ListGameUpdateResolver>());
+
+            CreateMap<ListCreateDto, List>()
+                .ForMember(dest => dest.Games, opt => opt.MapFrom<ListGameCreateResolver>());
         }
 	}
 }
