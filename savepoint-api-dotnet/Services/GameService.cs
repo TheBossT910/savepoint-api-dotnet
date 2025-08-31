@@ -32,6 +32,7 @@ namespace savepoint_api_dotnet.Services
             var games = _context.Games
                 .Include(g => g.Developers)
                 .Include(g => g.Genres)
+                .Include(g => g.Categories)
                 .Include(g => g.Images)
                 .Include(g => g.Videos)
                 .Include(g => g.GameVariations)
@@ -46,6 +47,7 @@ namespace savepoint_api_dotnet.Services
             var game = _context.Games
                 .Include(g => g.Developers)
                 .Include(g => g.Genres)
+                .Include(g => g.Categories)
                 .Include(g => g.Images)
                 .Include(g => g.Videos)
                 .Include(g => g.GameVariations)
@@ -59,10 +61,13 @@ namespace savepoint_api_dotnet.Services
         // Update game
         public void UpdateGame(GameUpdateDto gameUpdateDto)
 		{
-            // We need to include Developers, Genres, and GameVariations for the resolver to properly map
+            // We need to include for the resolver to properly map
             var game = _context.Games
+                .Include(g => g.Images)
+                .Include(g => g.Videos)
                 .Include(g => g.Developers)
                 .Include(g => g.Genres)
+                .Include(g => g.Categories)
                 .Include(g => g.GameVariations)
                 .FirstOrDefault(g => g.Id == gameUpdateDto.Id);
             if (game == null)

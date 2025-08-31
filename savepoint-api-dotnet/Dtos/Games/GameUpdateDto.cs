@@ -11,6 +11,7 @@ namespace savepoint_api_dotnet.Dtos.Games
         public string Cover { get; set; }
         public List<int> DeveloperIds { get; set; }
         public List<int> GenreIds { get; set; }
+        public List<int> CategoryIds { get; set; }
         public List<ImageDto> Images { get; set; }
         public List<VideoDto> Videos { get; set; }
         public List<int> GameVariationIds { get; set; }

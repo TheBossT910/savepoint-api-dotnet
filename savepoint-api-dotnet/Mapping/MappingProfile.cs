@@ -15,17 +15,20 @@ namespace savepoint_api_dotnet.Mapping
 			CreateMap<Game, GameDto>();
 
 			CreateMap<GameUpdateDto, Game>()
-				.ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
-				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
-                .ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperUpdateResolver>())
+				.ForMember(dest => dest.Images, opt => opt.MapFrom<ImageUpdateResolver>())
+                //.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
+				.ForMember(dest => dest.Videos, opt => opt.MapFrom<VideoUpdateResolver>())
+				.ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperUpdateResolver>())
 				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreUpdateResolver>())
-				.ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationUpdateResolver>());
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom<CategoryUpdateResolver>())
+                .ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationUpdateResolver>());
 
             CreateMap<GameCreateDto, Game>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
 				.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
 				.ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperCreateResolver>())
 				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreCreateResolver>())
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom<CategoryCreateResolver>())
                 .ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationCreateResolver>());
 
             CreateMap<Developer, DeveloperDto>();
@@ -35,7 +38,9 @@ namespace savepoint_api_dotnet.Mapping
 
             CreateMap<Genre, GenreDto>();
 
-			CreateMap<Image, ImageDto>()
+            CreateMap<Category, CategoryDto>();
+
+            CreateMap<Image, ImageDto>()
 				.ReverseMap();
 
 			CreateMap<Video, VideoDto>()

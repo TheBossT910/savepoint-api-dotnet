@@ -18,6 +18,7 @@ namespace savepoint_api_dotnet.Models
         public List<Video> Videos { get; set; }
         public List<Stack> Stacks { get; set; }
         public List<List> Lists { get; set; }
+        public List<Category> Categories { get; set; }
         public List<GameVariation> GameVariations { get; set; }
     }
 }

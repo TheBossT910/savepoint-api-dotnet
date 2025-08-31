@@ -37,7 +37,8 @@ namespace savepoint_api_dotnet.Controllers
         public IActionResult GetGames([FromQuery] string? category, [FromQuery] string? genre, [FromQuery] string? developer)
         {
             var gameDtos = _gameService.GetGames()
-                // TODO: implement category filtering
+                .Where(g => string.IsNullOrEmpty(category) ||
+                    g.Categories.Any(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase)))
                 .Where(g => string.IsNullOrEmpty(genre) || 
                     g.Genres.Any(ge => ge.Name.Equals(genre, StringComparison.OrdinalIgnoreCase)))
                 .Where(g => string.IsNullOrEmpty(developer) ||

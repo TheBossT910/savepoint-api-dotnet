@@ -50,6 +50,10 @@ builder.Services.AddScoped<DeveloperCreateResolver>();
 builder.Services.AddScoped<DeveloperUpdateResolver>();
 builder.Services.AddScoped<GenreCreateResolver>();
 builder.Services.AddScoped<GenreUpdateResolver>();
+builder.Services.AddScoped<CategoryCreateResolver>();
+builder.Services.AddScoped<CategoryUpdateResolver>();
+builder.Services.AddScoped<ImageUpdateResolver>();
+builder.Services.AddScoped<VideoUpdateResolver>();
 builder.Services.AddScoped<GameVariationCreateResolver>();
 builder.Services.AddScoped<GameVariationUpdateResolver>();
 // Stack resolvers

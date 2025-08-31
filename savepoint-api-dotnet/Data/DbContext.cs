@@ -25,6 +25,7 @@ namespace savepoint_api_dotnet.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Developer> Developers { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Video> Videos { get; set; }
         public DbSet<Stack> Stacks { get; set; }
