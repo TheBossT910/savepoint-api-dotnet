@@ -20,6 +20,9 @@ namespace savepoint_api_dotnet.Controllers
         /// <summary>
         /// Returns search results for games
         /// </summary>
+        /// <param name="searchTerm">
+        /// Search term to look for in game names, descriptions, developers, and genres
+        /// </param>
         /// <returns></returns>
         [HttpGet("")]
         public IActionResult SearchGames([FromQuery] string searchTerm)
