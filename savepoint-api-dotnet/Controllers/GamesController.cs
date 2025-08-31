@@ -34,9 +34,15 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
-        public IActionResult GetGames()
+        public IActionResult GetGames([FromQuery] string category, [FromQuery] string genre, [FromQuery] string developer)
         {
-            var gameDtos = _gameService.GetGames();
+            var gameDtos = _gameService.GetGames()
+                // TODO: implement category filtering
+                .Where(g => string.IsNullOrEmpty(genre) || 
+                    g.Genres.Any(ge => ge.Name.Equals(genre, StringComparison.OrdinalIgnoreCase)))
+                .Where(g => string.IsNullOrEmpty(developer) ||
+                    g.Developers.Any(de => de.Name.Equals(developer, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
             return Ok(gameDtos);
         }
 
