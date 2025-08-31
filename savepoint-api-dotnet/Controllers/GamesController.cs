@@ -34,7 +34,7 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
-        public IActionResult GetGames([FromQuery] string category, [FromQuery] string genre, [FromQuery] string developer)
+        public IActionResult GetGames([FromQuery] string? category, [FromQuery] string? genre, [FromQuery] string? developer)
         {
             var gameDtos = _gameService.GetGames()
                 // TODO: implement category filtering
