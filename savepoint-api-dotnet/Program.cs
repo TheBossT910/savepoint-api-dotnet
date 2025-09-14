@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(allowedOrgin, policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://0.0.0.0:3000", "http://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -77,6 +77,8 @@ builder.Services.AddScoped<ListGameUpdateResolver>();
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<StackService>();
 builder.Services.AddScoped<ListService>();
+
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 var app = builder.Build();
 
