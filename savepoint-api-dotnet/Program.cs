@@ -1,10 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using savepoint_api_dotnet.Data;
 using savepoint_api_dotnet.Mapping;
 using savepoint_api_dotnet.Services;
-using System;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +39,18 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Allow CORS for the frontend
+var allowedOrgin = "FrontendPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(allowedOrgin, policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Adding mappers
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
@@ -76,6 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(allowedOrgin);
 
 app.UseHttpsRedirection();
 
