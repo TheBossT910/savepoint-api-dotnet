@@ -2,7 +2,7 @@
 {
     public class ListCreateDto
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } // TODO: remove Id field
         // TODO: remove DTC and make it auto-generated in the backend
         public DateTime Dtc { get; set; }
         public string Name { get; set; }
