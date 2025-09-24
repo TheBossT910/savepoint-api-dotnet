@@ -17,5 +17,10 @@ namespace savepoint_api_dotnet.Dtos.Games
         public List<VideoDto> Videos { get; set; }
         public List<int> GameVariationIds { get; set; }
         // Ignore Stacks and Lists
+        public string Splash { get; set; }
+        public string Region { get; set; }
+        public List<ReviewDto> Reviews { get; set; }
+        public PlayTimeDto PlayTime { get; set; }    // NOTE: This is the HLTB data
+        public List<int> PlatformIds { get; set; }        
     }
 }
