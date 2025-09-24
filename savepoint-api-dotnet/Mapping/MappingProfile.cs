@@ -63,6 +63,15 @@ namespace savepoint_api_dotnet.Mapping
 
             CreateMap<ListCreateDto, List>()
                 .ForMember(dest => dest.Games, opt => opt.MapFrom<ListGameCreateResolver>());
+
+            // Review
+            CreateMap<Review, ReviewDto>();
+
+            // PlayTime
+            CreateMap<PlayTime, PlayTimeDto>();
+
+            // Platform
+            CreateMap<Platform, PlatformDto>();
         }
-	}
+    }
 }
