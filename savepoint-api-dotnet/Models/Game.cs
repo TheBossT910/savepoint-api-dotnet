@@ -25,6 +25,10 @@ namespace savepoint_api_dotnet.Models
         public List<Review> Reviews { get; set; }
         public PlayTime PlayTime { get; set; }    // NOTE: This is the HLTB data
         public List<Platform> Platforms { get; set; }
+
+        // TODO: add this property. It will be used to mark games that are not running natively
+        // This could mean ex. Proton, backwards compatability, etc.
+        //public List<int> NonNativePlatformIds { get; set; }
     }
 }
 
