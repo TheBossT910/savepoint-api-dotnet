@@ -9,7 +9,6 @@ namespace savepoint_api_dotnet.Controllers
     [Route("[controller]")]
     public class GamesController : ControllerBase
     {
-        // TODO: create a GameService.cs file, where all logic happens
         private readonly GameService _gameService;
 
         // Dependency injection

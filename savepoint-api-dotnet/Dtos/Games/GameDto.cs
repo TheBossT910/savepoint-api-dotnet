@@ -15,7 +15,6 @@ namespace savepoint_api_dotnet.Dtos.Games
         public List<ImageDto> Images { get; set; }
         public List<VideoDto> Videos { get; set; }
         public List<GameVariationDto> GameVariations { get; set; }
-        // New properties
         public string Splash { get; set; }
         public string Region { get; set; }
         public List<ReviewDto> Reviews { get; set; }

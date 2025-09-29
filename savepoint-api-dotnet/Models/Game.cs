@@ -20,8 +20,6 @@ namespace savepoint_api_dotnet.Models
         public List<List> Lists { get; set; }
         public List<Category> Categories { get; set; }
         public List<GameVariation> GameVariations { get; set; }
-
-        // New properties
         public string Splash { get; set; }
         public string Region { get; set; }
         public List<Review> Reviews { get; set; }
