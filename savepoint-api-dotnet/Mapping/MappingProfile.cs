@@ -16,15 +16,13 @@ namespace savepoint_api_dotnet.Mapping
 
 			CreateMap<GameUpdateDto, Game>()
 				.ForMember(dest => dest.Images, opt => opt.MapFrom<ImageUpdateResolver>())
-                //.ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos))
 				.ForMember(dest => dest.Videos, opt => opt.MapFrom<VideoUpdateResolver>())
 				.ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperUpdateResolver>())
 				.ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreUpdateResolver>())
                 .ForMember(dest => dest.Categories, opt => opt.MapFrom<CategoryUpdateResolver>())
                 .ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationUpdateResolver>())
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom<ReviewUpdateResolver>())
-                .ForMember(dest => dest.PlayTime, opt => opt.Ignore())  // TODO: check if we need a resolver here
-                .ForMember(dest => dest.Platforms, opt => opt.Ignore());// TODO: create resolver for platforms
+                .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformUpdateResolver>());
 
             CreateMap<GameCreateDto, Game>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images))
@@ -35,8 +33,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.GameVariations, opt => opt.MapFrom<GameVariationCreateResolver>())
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.Reviews))
                 .ForMember(dest => dest.PlayTime, opt => opt.MapFrom(src => src.PlayTime))
-                .ForMember(dest => dest.Platforms, opt => opt.Ignore());    // TODO: create resolver for platforms
-
+                .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformCreateResolver>());
 
             CreateMap<Developer, DeveloperDto>();
 

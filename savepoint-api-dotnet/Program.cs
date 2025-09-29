@@ -74,6 +74,9 @@ builder.Services.AddScoped<ListGameCreateResolver>();
 builder.Services.AddScoped<ListGameUpdateResolver>();
 // Review resolvers
 builder.Services.AddScoped<ReviewUpdateResolver>();
+// Platform resolvers
+builder.Services.AddScoped<PlatformCreateResolver>();
+builder.Services.AddScoped<PlatformUpdateResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();
