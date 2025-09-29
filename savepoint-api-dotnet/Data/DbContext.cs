@@ -31,5 +31,8 @@ namespace savepoint_api_dotnet.Data
         public DbSet<Stack> Stacks { get; set; }
         public DbSet<List> Lists { get; set; }
         public DbSet<GameVariation> GameVariations { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<PlayTime> PlayTimes { get; set; }
+        public DbSet<Platform> Platforms { get; set; }
     }
 }

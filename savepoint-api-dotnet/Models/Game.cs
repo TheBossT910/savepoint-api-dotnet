@@ -27,7 +27,6 @@ namespace savepoint_api_dotnet.Models
         public List<Review> Reviews { get; set; }
         public PlayTime PlayTime { get; set; }    // NOTE: This is the HLTB data
         public List<Platform> Platforms { get; set; }
-
     }
 }
 

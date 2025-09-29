@@ -72,6 +72,8 @@ builder.Services.AddScoped<StackGameUpdateResolver>();
 // List resolvers
 builder.Services.AddScoped<ListGameCreateResolver>();
 builder.Services.AddScoped<ListGameUpdateResolver>();
+// Review resolvers
+builder.Services.AddScoped<ReviewUpdateResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();
