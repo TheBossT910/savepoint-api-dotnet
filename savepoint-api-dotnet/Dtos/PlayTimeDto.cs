@@ -2,7 +2,7 @@
 {
     public class PlayTimeDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string Main { get; set; }
         public string MainPlusSides { get; set; }
         public string Completionist { get; set; }
