@@ -37,7 +37,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformCreateResolver>());
 
             // GameIGDB to Game
-            // TODO: make custom resolver for splash to pick best image
+
             CreateMap<GameIGDB, Game>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Dtc, opt => opt.MapFrom(src => DateTime.UtcNow))
@@ -50,8 +50,9 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos != null ? src.Videos.ConvertAll(v => new Video { Id = 0, Url = v.Url, Source = "IGDB" }) : new List<Video>()))
                 .ForMember(dest => dest.Splash, opt => opt.MapFrom<SplashIGDBResolver>())
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformIGDBResolver>())
-                // TODO: add aggregated rating as review
-                .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.AggregatedRating > 0 ? new List<Review> { new Review { Id = 0, Source = "IGDB", Rating = Math.Round(src.AggregatedRating).ToString(), Url = src.Websites != null && src.Websites.Count > 0 ? src.Websites[0].Url : null } } : new List<Review>()));
+                // TODO: get and set regions
+                .ForMember(dest => dest.Region, opt => opt.MapFrom(src => ""))
+                .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.AggregatedRating > 0 ? new List<Review> { new Review { Id = 0, Source = "IGDB", Rating = Math.Round(src.AggregatedRating).ToString(), Logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/IGDB_logo.svg/500px-IGDB_logo.svg.png", Url = src.Websites != null && src.Websites.Count > 0 ? src.Websites[0].Url : null } } : new List<Review>()));
 
 
             CreateMap<Developer, DeveloperDto>();
