@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RestSharp;
 using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Dtos.Games;
+using savepoint_api_dotnet.Models;
 using savepoint_api_dotnet.Models.Api;
 
 namespace savepoint_api_dotnet.Services.Apis
@@ -9,14 +11,18 @@ namespace savepoint_api_dotnet.Services.Apis
     public class GamesIGDBApiService
 	{
         private readonly RestClient _restClient;
+        private readonly IMapper _mapper;
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly string _baseTokenUrl = "https://id.twitch.tv";
         private readonly string _baseUrl = "https://api.igdb.com/v4";
-        
-        public GamesIGDBApiService(IConfiguration config)
+
+        private readonly string _gameRequestFields = "fields aggregated_rating, cover.url, first_release_date, name, platforms.websites.url, platforms.platform_family.name, platforms.platform_logo.url, platforms.platform_type.name, platforms.name, screenshots.url, artworks.url, artworks.artwork_type.slug, summary, videos.video_id, websites.url, genres.name, expanded_games.name, expansions.name, ports.name, involved_companies.company.name, involved_companies.company.logo.url, involved_companies.company.websites.url, involved_companies.company.country, involved_companies.developer;";
+
+        public GamesIGDBApiService(IConfiguration config, IMapper mapper)
 		{
             _restClient = new RestClient(_baseUrl); // IGDB uses OAuth2
+            _mapper = mapper;
             _clientId = config["IGDB:ClientId"] ?? throw new Exception("IGDB Client ID not found in configuration");
             _clientSecret = config["IGDB:ClientSecret"] ?? throw new Exception("IGDB Client Secret not found in configuration");
         }
@@ -30,12 +36,13 @@ namespace savepoint_api_dotnet.Services.Apis
             // Creating the request
             var request = new RestRequest("games", Method.Post)
                 .AddHeader("Accept", "application/json")
-                .AddStringBody($"fields aggregated_rating,cover.url,first_release_date,name,platforms.name,screenshots.url,summary,url,videos.video_id,websites.url;", DataFormat.None);
+                .AddStringBody(_gameRequestFields, DataFormat.None);
 
             // Making the request
             var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
             if (response.IsSuccessful)
                 return response.Data ?? new List<GameIGDB>();
+                //return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
 
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }
@@ -49,12 +56,13 @@ namespace savepoint_api_dotnet.Services.Apis
             // Creating the request
             var request = new RestRequest("games", Method.Post)
                 .AddHeader("Accept", "application/json")
-                .AddStringBody($"fields aggregated_rating,cover.url,first_release_date,name,platforms.name,screenshots.url,summary,url,videos.video_id,websites.url; where slug = \"{slug}\";", DataFormat.None);
+                .AddStringBody($"{_gameRequestFields} where slug = \"{slug}\";", DataFormat.None);
 
             // Making the request
             var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
             if (response.IsSuccessful)
                 return response.Data ?? new List<GameIGDB>();
+                //return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
 
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }

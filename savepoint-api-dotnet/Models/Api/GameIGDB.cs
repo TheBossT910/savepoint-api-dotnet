@@ -2,7 +2,6 @@
 
 namespace savepoint_api_dotnet.Models.Api
 {
-    // TODO: Create a GameIGDBDto class to use when displaying data to the user
     public class GameIGDB
     {
         [JsonPropertyName("id")]
@@ -11,6 +10,8 @@ namespace savepoint_api_dotnet.Models.Api
         public double AggregatedRating { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
+        [JsonPropertyName("artworks")]
+        public List<ArtworkInfo> Artworks { get; set; }
         [JsonPropertyName("cover")]
         public CoverInfo Cover { get; set; }
         [JsonPropertyName("first_release_date")]
@@ -19,16 +20,16 @@ namespace savepoint_api_dotnet.Models.Api
         public List<PlatformInfo> Platforms { get; set; }
         [JsonPropertyName("screenshots")]
         public List<ScreenshotInfo> Images { get; set; }
+        [JsonPropertyName("genres")]
+        public List<GenreInfo> Genres { get; set; }
+        [JsonPropertyName("involved_companies")]
+        public List<InvolvedCompanyInfo> InvolvedCompanies { get; set; }
         [JsonPropertyName("summary")]
         public String Description { get; set; }
         [JsonPropertyName("videos")]
         public List<VideoInfo> Videos { get; set; }
-        [JsonPropertyName("url")]
-        public String Url { get; set; }
         [JsonPropertyName("websites")]
         public List<WebsiteInfo> Websites { get; set; }
-
-
     }
 
     public class CoverInfo
@@ -51,6 +52,43 @@ namespace savepoint_api_dotnet.Models.Api
         public int Id { get; set; }
         [JsonPropertyName("name")]
         public String Platform { get; set; }
+        [JsonPropertyName("platform_logo")]
+        public PlatformLogo PlatformLogo { get; set; }
+        [JsonPropertyName("platform_family")]
+        public PlatformFamily PlatformFamily { get; set; }
+        [JsonPropertyName("platform_type")]
+        public PlatformType PlatformType { get; set; }
+        [JsonPropertyName("websites")]
+        public List<WebsiteInfo> Websites { get; set; }
+    }
+
+    public class PlatformLogo
+    {
+        private string _url;
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("url")]
+        public string Url
+        {
+            get => _url;
+            set => _url = !string.IsNullOrEmpty(value) ? $"https:{value.Replace("t_thumb", "t_1080p")}" : null;
+        }
+    }
+
+    public class PlatformFamily
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("name")]
+        public String Family { get; set; }
+    }
+
+    public class PlatformType
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("name")]
+        public String Type { get; set; }
     }
 
     public class ScreenshotInfo
@@ -66,8 +104,6 @@ namespace savepoint_api_dotnet.Models.Api
             set => _url = !string.IsNullOrEmpty(value) ? $"https:{value.Replace("t_thumb", "t_1080p")}" : null;
         }
     }
-
-    //https://www.youtube.com/embed/o9QjlLdYK5I
     public class VideoInfo
     {
         private string _url;
@@ -87,5 +123,73 @@ namespace savepoint_api_dotnet.Models.Api
         public int Id { get; set; }
         [JsonPropertyName("url")]
         public String Url { get; set; }
+    }
+
+    public class ArtworkInfo
+    {
+        private string _url;
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("url")]
+        public string Url
+        {
+            get => _url;
+            set => _url = !string.IsNullOrEmpty(value) ? $"https:{value.Replace("t_thumb", "t_1080p")}" : null;
+        }
+        [JsonPropertyName("artwork_type")]
+        public ArtworkTypeInfo? ArtworkType { get; set; }
+    }
+
+    public class ArtworkTypeInfo
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("slug")]
+        public String ArtworkType { get; set; }
+    }
+
+    public class GenreInfo
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("name")]
+        public String Name { get; set; }
+    }
+
+    public class InvolvedCompanyInfo
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("company")]
+        public CompanyInfo Company { get; set; }
+        [JsonPropertyName("developer")]
+        public bool Developer { get; set; }
+    }
+
+    public class CompanyInfo
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("country")]
+        public int country { get; set; }    // Country ISO code
+        [JsonPropertyName("logo")]
+        public LogoInfo Logo { get; set; }
+        [JsonPropertyName("name")]
+        public String Name { get; set; }
+        [JsonPropertyName("websites")]
+        public List<WebsiteInfo> Websites { get; set; }
+    }
+
+    public class LogoInfo
+    {
+        private string _url;
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("url")]
+        public string Url
+        {
+            get => _url;
+            set => _url = !string.IsNullOrEmpty(value) ? $"https:{value.Replace("t_thumb", "t_1080p")}" : null;
+        }
     }
 }
