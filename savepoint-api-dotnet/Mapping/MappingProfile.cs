@@ -37,7 +37,6 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformCreateResolver>());
 
             // GameIGDB to Game
-            // TODO: make resolvers for developers, genres, images, videos, platforms, reviews to avoid duplicates
             // TODO: make custom resolver for splash to pick best image
             CreateMap<GameIGDB, Game>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -50,8 +49,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images != null ? src.Images.ConvertAll(i => new Image { Id = 0, Url = i.Url, Source = "IGDB" }) : new List<Image>()))
                 .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos != null ? src.Videos.ConvertAll(v => new Video { Id = 0, Url = v.Url, Source = "IGDB" }) : new List<Video>()))
                 .ForMember(dest => dest.Splash, opt => opt.Ignore())
-                // TODO: add platforms
-                .ForMember(dest => dest.Platforms, opt => opt.MapFrom(src => src.Platforms != null ? src.Platforms.ConvertAll(p => new Platform { Id = 0, PlatformLogo = p.PlatformLogo.Url, Hardware = p.Platform }) : new List<Platform>()))
+                .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformIGDBResolver>())
                 // TODO: add aggregated rating as review
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.AggregatedRating > 0 ? new List<Review> { new Review { Id = 0, Source = "IGDB", Rating = Math.Round(src.AggregatedRating).ToString(), Url = src.Websites != null && src.Websites.Count > 0 ? src.Websites[0].Url : null } } : new List<Review>()));
 
