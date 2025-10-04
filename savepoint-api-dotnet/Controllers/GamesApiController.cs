@@ -20,9 +20,16 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("")]
-        public async Task<IActionResult> GetGamesFromIGDBAsync()
+        public async Task<IActionResult> GetGamesFromIGDBAsync([FromQuery] Boolean saveToDatabase)
         {
-            return Ok(await _gameApiService.GetGames());
+            var games = await _gameApiService.GetGames();
+            if (saveToDatabase)
+            {
+                await _gameApiService.SaveGamesToDatabase(games);
+                return Ok();
+            }
+
+            return Ok(games);
         }
 
         /// <summary>
@@ -30,9 +37,16 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("game")]
-        public async Task<IActionResult> GetGameFromIGDBAsync([FromQuery] string slug)
+        public async Task<IActionResult> GetGameFromIGDBAsync([FromQuery] Boolean saveToDatabase, [FromQuery] string slug)
         {
-            return Ok(await _gameApiService.GetGame(slug));
+            var game = (await _gameApiService.GetGame(slug)).First();
+            if (saveToDatabase && game != null)
+            {
+                await _gameApiService.SaveGamesToDatabase(new List<Game>() { game });
+                return Ok();
+            }
+
+            return Ok(game);
         }
     }
 }
