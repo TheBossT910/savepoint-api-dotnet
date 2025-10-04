@@ -85,6 +85,7 @@ builder.Services.AddScoped<DeveloperIGDBResolver>();
 builder.Services.AddScoped<GenreIGDBResolver>();
 builder.Services.AddScoped<PlatformIGDBResolver>();
 builder.Services.AddScoped<SplashIGDBResolver>();
+builder.Services.AddScoped<ImageIGDBResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();

@@ -37,7 +37,6 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformCreateResolver>());
 
             // GameIGDB to Game
-
             CreateMap<GameIGDB, Game>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Dtc, opt => opt.MapFrom(src => DateTime.UtcNow))
@@ -46,7 +45,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Cover, opt => opt.MapFrom(src => src.Cover != null ? src.Cover.Url : null))
                 .ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperIGDBResolver>())
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreIGDBResolver>())
-                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images != null ? src.Images.ConvertAll(i => new Image { Id = 0, Url = i.Url, Source = "IGDB" }) : new List<Image>()))
+                .ForMember(dest => dest.Images, opt => opt.MapFrom<ImageIGDBResolver>())
                 .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos != null ? src.Videos.ConvertAll(v => new Video { Id = 0, Url = v.Url, Source = "IGDB" }) : new List<Video>()))
                 .ForMember(dest => dest.Splash, opt => opt.MapFrom<SplashIGDBResolver>())
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformIGDBResolver>())
