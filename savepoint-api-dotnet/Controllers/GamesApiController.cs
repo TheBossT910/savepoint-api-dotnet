@@ -33,6 +33,23 @@ namespace savepoint_api_dotnet.Controllers
         }
 
         /// <summary>
+        /// Gets games from IGDB based on a custom field. Throws an error if games cannot be fetched
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("games/custom")]
+        public async Task<IActionResult> GetGamesCustomFromIGDBAsync([FromQuery] Boolean saveToDatabase, [FromQuery] string field)
+        {
+            var games = await _gameApiService.GetGamesCustom(field);
+            if (saveToDatabase)
+            {
+                await _gameApiService.SaveGamesToDatabase(games);
+                return Ok();
+            }
+
+            return Ok(games);
+        }
+
+        /// <summary>
         /// Gets game from IGDB based on slug. Throws an error if game cannot be fetched
         /// </summary>
         /// <returns></returns>

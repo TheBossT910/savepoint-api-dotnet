@@ -48,6 +48,25 @@ namespace savepoint_api_dotnet.Services.Apis
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }
 
+        // Get games based on custom fields
+        public async Task<List<Game>> GetGamesCustom(String fields)
+        {
+            // Getting/setting the auth tokens
+            await SetAuthorizationAsync();
+
+            // Creating the request
+            var request = new RestRequest("games", Method.Post)
+                .AddHeader("Accept", "application/json")
+                .AddStringBody(_gameRequestFields + fields, DataFormat.None);
+
+            // Making the request
+            var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
+            if (response.IsSuccessful)
+                return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
+
+            throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
+        }
+
         // Get game
         public async Task<List<Game>> GetGame(String slug)
         {
