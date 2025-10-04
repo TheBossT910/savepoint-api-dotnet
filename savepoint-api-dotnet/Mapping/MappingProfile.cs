@@ -46,7 +46,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Cover, opt => opt.MapFrom(src => src.Cover != null ? src.Cover.Url : null))
                 .ForMember(dest => dest.Developers, opt => opt.MapFrom<DeveloperIGDBResolver>())
-                .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres != null ? src.Genres.ConvertAll(g => new Genre { Id = 0, Name = g.Name }) : new List<Genre>()))
+                .ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreIGDBResolver>())
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images != null ? src.Images.ConvertAll(i => new Image { Id = 0, Url = i.Url, Source = "IGDB" }) : new List<Image>()))
                 .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos != null ? src.Videos.ConvertAll(v => new Video { Id = 0, Url = v.Url, Source = "IGDB" }) : new List<Video>()))
                 .ForMember(dest => dest.Splash, opt => opt.Ignore())
