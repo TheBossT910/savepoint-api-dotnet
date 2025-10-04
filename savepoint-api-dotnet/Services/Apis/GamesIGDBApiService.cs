@@ -30,7 +30,7 @@ namespace savepoint_api_dotnet.Services.Apis
             // Creating the request
             var request = new RestRequest("games", Method.Post)
                 .AddHeader("Accept", "application/json")
-                .AddStringBody("fields id,name,summary;", DataFormat.None);
+                .AddStringBody($"fields aggregated_rating,cover.url,first_release_date,name,platforms.name,screenshots.url,summary,url,videos.video_id,websites.url;", DataFormat.None);
 
             // Making the request
             var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
@@ -38,7 +38,25 @@ namespace savepoint_api_dotnet.Services.Apis
                 return response.Data ?? new List<GameIGDB>();
 
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
-            
+        }
+
+        // Get game
+        public async Task<List<GameIGDB>> GetGame(String slug)
+        {
+            // Getting/setting the auth tokens
+            await SetAuthorizationAsync();
+
+            // Creating the request
+            var request = new RestRequest("games", Method.Post)
+                .AddHeader("Accept", "application/json")
+                .AddStringBody($"fields aggregated_rating,cover.url,first_release_date,name,platforms.name,screenshots.url,summary,url,videos.video_id,websites.url; where slug = \"{slug}\";", DataFormat.None);
+
+            // Making the request
+            var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
+            if (response.IsSuccessful)
+                return response.Data ?? new List<GameIGDB>();
+
+            throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }
 
         // Get token

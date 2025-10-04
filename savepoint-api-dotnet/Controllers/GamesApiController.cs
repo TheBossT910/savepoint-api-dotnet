@@ -24,5 +24,15 @@ namespace savepoint_api_dotnet.Controllers
         {
             return Ok(await _gameApiService.GetGames());
         }
+
+        /// <summary>
+        /// Gets game from IGDB based on slug. Throws an error if game cannot be fetched
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("game")]
+        public async Task<IActionResult> GetGameFromIGDBAsync([FromQuery] string slug)
+        {
+            return Ok(await _gameApiService.GetGame(slug));
+        }
     }
 }
