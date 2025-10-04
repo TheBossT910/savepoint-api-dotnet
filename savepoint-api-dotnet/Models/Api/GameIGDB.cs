@@ -145,7 +145,7 @@ namespace savepoint_api_dotnet.Models.Api
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("slug")]
-        public String ArtworkType { get; set; }
+        public String Slug { get; set; }
     }
 
     public class GenreInfo

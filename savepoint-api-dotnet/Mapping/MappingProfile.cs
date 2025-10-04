@@ -48,7 +48,7 @@ namespace savepoint_api_dotnet.Mapping
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom<GenreIGDBResolver>())
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.Images != null ? src.Images.ConvertAll(i => new Image { Id = 0, Url = i.Url, Source = "IGDB" }) : new List<Image>()))
                 .ForMember(dest => dest.Videos, opt => opt.MapFrom(src => src.Videos != null ? src.Videos.ConvertAll(v => new Video { Id = 0, Url = v.Url, Source = "IGDB" }) : new List<Video>()))
-                .ForMember(dest => dest.Splash, opt => opt.Ignore())
+                .ForMember(dest => dest.Splash, opt => opt.MapFrom<SplashIGDBResolver>())
                 .ForMember(dest => dest.Platforms, opt => opt.MapFrom<PlatformIGDBResolver>())
                 // TODO: add aggregated rating as review
                 .ForMember(dest => dest.Reviews, opt => opt.MapFrom(src => src.AggregatedRating > 0 ? new List<Review> { new Review { Id = 0, Source = "IGDB", Rating = Math.Round(src.AggregatedRating).ToString(), Url = src.Websites != null && src.Websites.Count > 0 ? src.Websites[0].Url : null } } : new List<Review>()));
