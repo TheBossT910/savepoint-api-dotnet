@@ -3,7 +3,10 @@ using Microsoft.OpenApi.Models;
 using savepoint_api_dotnet.Data;
 using savepoint_api_dotnet.Mapping;
 using savepoint_api_dotnet.Services;
+using savepoint_api_dotnet.Services.Apis;
 using System.Reflection;
+
+var _clientId = "";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,9 +41,6 @@ builder.Services.AddSwaggerGen(options =>
 // Add EF Core + PostgreSQL database
 builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Add RestSharp for calling external APIs
-// TODO: implement
 
 // Allow CORS for the frontend
 var allowedOrgin = "FrontendPolicy";
@@ -85,6 +85,7 @@ builder.Services.AddScoped<PlatformUpdateResolver>();
 builder.Services.AddScoped<GameService>();
 builder.Services.AddScoped<StackService>();
 builder.Services.AddScoped<ListService>();
+builder.Services.AddScoped<GamesIGDBApiService>();
 
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
