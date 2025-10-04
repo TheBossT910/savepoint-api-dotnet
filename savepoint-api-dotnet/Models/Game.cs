@@ -8,6 +8,7 @@ namespace savepoint_api_dotnet.Models
     {
         [Key]
         public Guid Id { get; set; }
+        // TODO: add slug property for URL-friendly names
         public DateTime Dtc { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
