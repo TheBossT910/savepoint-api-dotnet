@@ -2,6 +2,7 @@
 
 namespace savepoint_api_dotnet.Models.Api
 {
+    // TODO: Create a GameIGDBDto class to use when displaying data to the user
     public class GameIGDB
     {
         [JsonPropertyName("id")]
