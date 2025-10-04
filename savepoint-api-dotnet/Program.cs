@@ -80,6 +80,8 @@ builder.Services.AddScoped<ReviewUpdateResolver>();
 // Platform resolvers
 builder.Services.AddScoped<PlatformCreateResolver>();
 builder.Services.AddScoped<PlatformUpdateResolver>();
+// GameIGDB to Game resolvers
+builder.Services.AddScoped<DeveloperIGDBResolver>();
 
 // Adding other services
 builder.Services.AddScoped<GameService>();

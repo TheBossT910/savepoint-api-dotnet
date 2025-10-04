@@ -168,10 +168,23 @@ namespace savepoint_api_dotnet.Models.Api
 
     public class CompanyInfo
     {
+        private string _countryName;
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("country")]
-        public int country { get; set; }    // Country ISO code
+        public int CountryCode // ISO 3166-1 country code
+        { 
+            set
+            {
+                var country = ISO3166.Country.List.FirstOrDefault(c => c.NumericCode == value.ToString());
+                if (country != null)
+                    _countryName = country.Name;
+                else
+                    _countryName = "";
+            }
+        }
+        [JsonIgnore]
+        public string CountryName => _countryName;
         [JsonPropertyName("logo")]
         public LogoInfo Logo { get; set; }
         [JsonPropertyName("name")]
