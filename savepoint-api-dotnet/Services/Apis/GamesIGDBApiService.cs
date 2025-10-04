@@ -28,7 +28,7 @@ namespace savepoint_api_dotnet.Services.Apis
         }
 
 		// Get games
-		public async Task<List<GameIGDB>> GetGames()
+		public async Task<List<Game>> GetGames()
 		{
             // Getting/setting the auth tokens
             await SetAuthorizationAsync();
@@ -41,14 +41,13 @@ namespace savepoint_api_dotnet.Services.Apis
             // Making the request
             var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
             if (response.IsSuccessful)
-                return response.Data ?? new List<GameIGDB>();
-                //return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
+                return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
 
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }
 
         // Get game
-        public async Task<List<GameIGDB>> GetGame(String slug)
+        public async Task<List<Game>> GetGame(String slug)
         {
             // Getting/setting the auth tokens
             await SetAuthorizationAsync();
@@ -61,8 +60,7 @@ namespace savepoint_api_dotnet.Services.Apis
             // Making the request
             var response = await _restClient.ExecuteAsync<List<GameIGDB>>(request);
             if (response.IsSuccessful)
-                return response.Data ?? new List<GameIGDB>();
-                //return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
+                return _mapper.Map<List<Game>>(response.Data) ?? new List<Game>();
 
             throw new Exception($"Could not get games from IGDB. {response.ErrorMessage}");
         }

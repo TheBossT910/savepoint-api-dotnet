@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using savepoint_api_dotnet.Models;
 using savepoint_api_dotnet.Dtos.Games;
 using savepoint_api_dotnet.Services.Apis;
