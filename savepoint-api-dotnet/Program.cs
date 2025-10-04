@@ -39,6 +39,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<SavePointDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add RestSharp for calling external APIs
+// TODO: implement
+
 // Allow CORS for the frontend
 var allowedOrgin = "FrontendPolicy";
 builder.Services.AddCors(options =>
