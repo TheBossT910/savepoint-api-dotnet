@@ -1,10 +1,11 @@
-﻿using savepoint_api_dotnet.Data;
-using System;
-using savepoint_api_dotnet.Models;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using savepoint_api_dotnet.Dtos.Games;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using savepoint_api_dotnet.Data;
+using savepoint_api_dotnet.Dtos.Games;
+using savepoint_api_dotnet.Migrations;
+using savepoint_api_dotnet.Models;
+using System;
 
 namespace savepoint_api_dotnet.Services
 {
@@ -84,9 +85,43 @@ namespace savepoint_api_dotnet.Services
             await GetGamesAsync(page, pageSize, category, genre, developer, null, null);
 
         // Search games by name, description, developers, and genres
-        public async Task<List<GameDto>> SearchGamesAsync(int page, int pageSize, string searchTerm) =>
-            // TODO: fix this. We want to match each/or, NOT all!
-            await GetGamesAsync(page, pageSize, null, null, null, searchTerm, null);
+        public async Task<List<GameDto>> SearchGamesAsync(int page, int pageSize, string searchTerm)
+        {
+            var query = _context.Games.AsQueryable();
+            var lowerSearchTerm = searchTerm.ToLower();
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(g =>
+                g.Categories.Any(c => c.Name.Contains(lowerSearchTerm)) ||
+                g.Genres.Any(ge => ge.Name.Contains(lowerSearchTerm)) ||
+                g.Developers.Any(de => de.Name.Contains(lowerSearchTerm)) ||
+                g.Name.Contains(lowerSearchTerm) ||
+                g.Description != null && g.Description.Contains(lowerSearchTerm)
+                );
+            }
+
+            var games = await query
+                .AsSplitQuery()
+                .Include(g => g.Developers)
+                .Include(g => g.Genres)
+                .Include(g => g.Categories)
+                .Include(g => g.Images)
+                .Include(g => g.Videos)
+                .Include(g => g.GameVariations)
+                    .ThenInclude(gv => gv.Games)
+                .Include(g => g.Reviews)
+                .Include(g => g.PlayTime)
+                .Include(g => g.Platforms)
+                .OrderBy(g => g.Name)
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return _mapper.Map<List<GameDto>>(games);
+        }
+            
 
         // Get a specific game via id
         public async Task<GameDto> GetGameByIdAsync(Guid id)
