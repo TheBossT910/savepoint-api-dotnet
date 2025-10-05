@@ -32,9 +32,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
-        public IActionResult GetLists()
+        public async Task<IActionResult> GetLists()
         {
-            var listDtos = _listService.GetLists();
+            var listDtos = await _listService.GetListsAsync();
             return Ok(listDtos);
         }
 
@@ -46,9 +46,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult GetList(Guid id)
+        public async Task<IActionResult> GetList(Guid id)
         {
-            var listDto = _listService.GetListById(id);
+            var listDto = await _listService.GetListByIdAsync(id);
             return Ok(listDto);
         }
 
@@ -60,9 +60,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("")]
-        public IActionResult UpdateList([FromBody] ListUpdateDto listUpdateDto)
+        public async Task<IActionResult> UpdateList([FromBody] ListUpdateDto listUpdateDto)
         {
-            _listService.UpdateList(listUpdateDto);
+            await _listService.UpdateListAsync(listUpdateDto);
             return NoContent();
         }
 

@@ -33,9 +33,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("")]
-        public IActionResult GetStacks()
+        public async Task<IActionResult> GetStacks()
         {
-            var stackDtos = _stackService.GetStacks();
+            var stackDtos = await _stackService.GetStacksAsync();
             return Ok(stackDtos);
         }
 
@@ -47,9 +47,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult GetStack(Guid id)
+        public async Task<IActionResult> GetStack(Guid id)
         {
-            var stackDto = _stackService.GetStackById(id);
+            var stackDto = await _stackService.GetStackByIdAsync(id);
             return Ok(stackDto);
         }
 
@@ -61,9 +61,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("")]
-        public IActionResult UpdateStack([FromBody] StackUpdateDto stackUpdateDto)
+        public async Task<IActionResult> UpdateStack([FromBody] StackUpdateDto stackUpdateDto)
         {
-            _stackService.UpdateStack(stackUpdateDto);
+            await _stackService.UpdateStackAsync(stackUpdateDto);
             return NoContent();
         }
 

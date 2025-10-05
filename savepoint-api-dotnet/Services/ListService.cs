@@ -27,37 +27,37 @@ namespace savepoint_api_dotnet.Services
         }
 
         // Get all lists
-        public List<ListDto> GetLists()
+        public async Task<List<ListDto>> GetListsAsync()
         {
-            var lists = _context.Lists
+            var lists = await _context.Lists
                 .Include(g => g.Games)
-                .ToList();
+                .ToListAsync();
             return _mapper.Map<List<ListDto>>(lists);
         }
 
         // Get a specific list via id
-        public ListDto GetListById(Guid id)
+        public async Task<ListDto> GetListByIdAsync(Guid id)
         {
-            var list = _context.Lists
+            var list = await _context.Lists
                 .Include(l => l.Games)
-                .FirstOrDefault(l => l.Id == id);
+                .FirstOrDefaultAsync(l => l.Id == id);
             if (list == null)
                 throw new Exception($"List with id {id} not found");
             return _mapper.Map<ListDto>(list);
         }
 
         // Update list
-        public void UpdateList(ListUpdateDto listUpdateDto)
+        public async Task UpdateListAsync(ListUpdateDto listUpdateDto)
         {
             // We need to include Games for the resolver to properly map
-            var list = _context.Lists
+            var list = await _context.Lists
                 .Include(l => l.Games)
-                .FirstOrDefault(l => l.Id == listUpdateDto.Id);
+                .FirstOrDefaultAsync(l => l.Id == listUpdateDto.Id);
             if (list == null)
                 throw new Exception($"Update failed. List with id {listUpdateDto.Id} not found");
             _mapper.Map(listUpdateDto, list);
             _context.Lists.Update(list);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         // Delete list

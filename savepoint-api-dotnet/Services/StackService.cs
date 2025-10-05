@@ -27,37 +27,37 @@ namespace savepoint_api_dotnet.Services
         }
 
         // Get all stacks
-        public List<StackDto> GetStacks()
+        public async Task<List<StackDto>> GetStacksAsync()
         {
-            var stacks = _context.Stacks
+            var stacks = await _context.Stacks
                 .Include(g => g.Games)
-                .ToList();
+                .ToListAsync();
             return _mapper.Map<List<StackDto>>(stacks);
         }
 
         // Get a specific stack via id
-        public StackDto GetStackById(Guid id)
+        public async Task<StackDto> GetStackByIdAsync(Guid id)
         {
-            var stack = _context.Stacks
+            var stack = await _context.Stacks
                 .Include(g => g.Games)
-                .FirstOrDefault(g => g.Id == id);
+                .FirstOrDefaultAsync(g => g.Id == id);
             if (stack == null)
                 throw new Exception($"Stack with id {id} not found");
             return _mapper.Map<StackDto>(stack);
         }
 
         // Update stack
-        public void UpdateStack(StackUpdateDto stackUpdateDto)
+        public async Task UpdateStackAsync(StackUpdateDto stackUpdateDto)
         {
             // We need to include Games for the resolver to properly map
-            var stack = _context.Stacks
+            var stack = await _context.Stacks
                 .Include(g => g.Games)
-                .FirstOrDefault(g => g.Id == stackUpdateDto.Id);
+                .FirstOrDefaultAsync(g => g.Id == stackUpdateDto.Id);
             if (stack == null)
                 throw new Exception($"Update failed. Stack with id {stackUpdateDto.Id} not found");
             _mapper.Map(stackUpdateDto, stack);
             _context.Stacks.Update(stack);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         // Delete stack
