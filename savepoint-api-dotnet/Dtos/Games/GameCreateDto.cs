@@ -6,7 +6,8 @@ namespace savepoint_api_dotnet.Dtos.Games
     {
         public Guid Id { get; set; }
         // TODO: remove DTC and make it auto-generated in the backend
-        public DateTime Dtc { get; set; }
+        public DateTime Dtc { get; set; } = DateTime.Now;
+        public DateTime ReleaseDate { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Cover { get; set; }

@@ -6,6 +6,7 @@ namespace savepoint_api_dotnet.Dtos.Games
     {
         public Guid Id { get; set; }
         public DateTime Dtc { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Cover { get; set; }
