@@ -4,6 +4,7 @@ namespace savepoint_api_dotnet.Models.Api
 {
     public class GameIGDB
     {
+        private DateTime _readableDate;
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("aggregated_rating")]
@@ -15,7 +16,14 @@ namespace savepoint_api_dotnet.Models.Api
         [JsonPropertyName("cover")]
         public CoverInfo Cover { get; set; }
         [JsonPropertyName("first_release_date")]
-        public int ReleaseDateUnix { get; set; }
+        public int ReleaseDateUnix {
+            set
+            {
+                _readableDate = DateTimeOffset.FromUnixTimeSeconds(value).DateTime;
+            }
+        }
+        [JsonIgnore]
+        public DateTime ReleaseDate => _readableDate;
         [JsonPropertyName("platforms")]
         public List<PlatformInfo> Platforms { get; set; }
         [JsonPropertyName("screenshots")]
