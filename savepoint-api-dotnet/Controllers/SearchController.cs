@@ -23,15 +23,24 @@ namespace savepoint_api_dotnet.Controllers
         /// <param name="searchTerm">
         /// Search term to look for in game names, descriptions, developers, and genres
         /// </param>
+        /// <param name="searchDescription">
+        /// Enable searching using description
+        /// </param>
+        /// <param name="searchDevelopers">
+        /// Enable searching using developers
+        /// </param>
+        /// <param name="searchGenres">
+        /// Enable searching using genres
+        /// </param>
         /// <returns></returns>
         [HttpGet("games")]
-        public IActionResult SearchGames([FromQuery] string searchTerm)
+        public IActionResult SearchGames([FromQuery] string searchTerm, [FromQuery] Boolean searchDescription = true, [FromQuery] Boolean searchDevelopers = true, [FromQuery] Boolean searchGenres = false)
         {
             var gameDtos = _gameService.GetGames()
                 .Where(g => g.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            g.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            g.Developers.Any(d => d.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
-                            g.Genres.Any(ge => ge.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
+                            searchDescription && g.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            searchDevelopers && g.Developers.Any(d => d.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
+                            searchGenres && g.Genres.Any(ge => ge.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
             return Ok(gameDtos);
         }
