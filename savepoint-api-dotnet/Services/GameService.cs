@@ -85,7 +85,8 @@ namespace savepoint_api_dotnet.Services
 
         // Search games by name, description, developers, and genres
         public async Task<List<GameDto>> SearchGamesAsync(int page, int pageSize, string searchTerm) =>
-            await GetGamesAsync(page, pageSize, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
+            // TODO: fix this. We want to match each/or, NOT all!
+            await GetGamesAsync(page, pageSize, null, null, null, searchTerm, null);
 
         // Get a specific game via id
         public async Task<GameDto> GetGameByIdAsync(Guid id)
