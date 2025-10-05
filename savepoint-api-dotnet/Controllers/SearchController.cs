@@ -34,14 +34,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("games")]
-        public IActionResult SearchGames([FromQuery] string searchTerm, [FromQuery] Boolean searchDescription = true, [FromQuery] Boolean searchDevelopers = true, [FromQuery] Boolean searchGenres = false)
+        public async Task<IActionResult> SearchGames([FromQuery] string searchTerm)
         {
-            var gameDtos = _gameService.GetGames()
-                .Where(g => g.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            searchDescription && g.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                            searchDevelopers && g.Developers.Any(d => d.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
-                            searchGenres && g.Genres.Any(ge => ge.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
+            var gameDtos = await _gameService.SearchGamesAsync(0, 50, searchTerm);
             return Ok(gameDtos);
         }
     }

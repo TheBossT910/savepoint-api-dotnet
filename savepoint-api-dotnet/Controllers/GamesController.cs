@@ -31,18 +31,17 @@ namespace savepoint_api_dotnet.Controllers
         /// <summary>
         /// Gets all games in the database
         /// </summary>
+        /// <param name="page">
+        /// The page number (0-indexed)
+        /// </param>
+        /// <param name="pageSize">
+        /// The number of items per page
+        /// </param>
         /// <returns></returns>
         [HttpGet("")]
-        public IActionResult GetGames([FromQuery] string? category, [FromQuery] string? genre, [FromQuery] string? developer)
+        public async Task<IActionResult> GetGames([FromQuery] int page, [FromQuery] int pageSize, [FromQuery] string? category, [FromQuery] string? genre, [FromQuery] string? developer)
         {
-            var gameDtos = _gameService.GetGames()
-                .Where(g => string.IsNullOrEmpty(category) ||
-                    g.Categories.Any(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase)))
-                .Where(g => string.IsNullOrEmpty(genre) || 
-                    g.Genres.Any(ge => ge.Name.Equals(genre, StringComparison.OrdinalIgnoreCase)))
-                .Where(g => string.IsNullOrEmpty(developer) ||
-                    g.Developers.Any(de => de.Name.Equals(developer, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
+            var gameDtos = await _gameService.GetGamesFilteredAsync(page, pageSize, category, genre, developer);
             return Ok(gameDtos);
         }
 
@@ -54,9 +53,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult GetGame(Guid id)
+        public async Task<IActionResult> GetGame(Guid id)
         {
-            var gameDto = _gameService.GetGameById(id);
+            var gameDto = await _gameService.GetGameByIdAsync(id);
             return Ok(gameDto);
         }
 
@@ -68,9 +67,9 @@ namespace savepoint_api_dotnet.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("")]
-        public IActionResult UpdateGame([FromBody] GameUpdateDto gameUpdateDto)
+        public async Task<IActionResult> UpdateGame([FromBody] GameUpdateDto gameUpdateDto)
         {
-            _gameService.UpdateGame(gameUpdateDto);
+            await _gameService.UpdateGameAsync(gameUpdateDto);
             return NoContent();
         }
 
